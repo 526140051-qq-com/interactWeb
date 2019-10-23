@@ -1,0 +1,25 @@
+/*
+ * 验证手机号
+ */
+function checkPhone(str) {
+  let reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0-9]|18[0-9]|14[57])[0-9]{8}$/
+  if (reg.test(str)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+/*
+ * 验证邮箱
+ */
+function checkMail(str) {
+  let reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+  if (reg.test(str)) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export {checkPhone, checkMail}

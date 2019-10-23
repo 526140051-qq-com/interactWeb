@@ -1,0 +1,157 @@
+body, html
+  line-height: 1
+  font-weight: 200
+  font-size: 14px
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
+  background: #fff
+  color: #666
+  height: 100%
+
+*
+  box-sizing: border-box
+
+.clearfix
+  //display: inline-block
+  //&:after
+  //  display: block
+  //  content: "."
+  //  height: 0
+  //  line-height: 0
+  //  clear: both
+  //  visibility: hidden
+  display flex
+  align-items center
+
+img
+  width: 100%
+  vertical-align: middle
+
+em, i
+  display: inline-block
+  font-style: normal
+
+.center
+  text-align: center
+
+.right
+  text-align: right
+
+.show
+  display: block !important
+
+// 去掉谷歌，火狐下的type="number"中的右边箭头
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+  -webkit-appearance: none
+
+input[type="number"]
+  -moz-appearance: textfield
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder
+  color: $placeholder
+
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)
+  .border-1px
+    &::after
+      -webkit-transform: scaleY(0.7)
+      transform: scaleY(0.7)
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)
+  .border-1px
+    &::after
+      -webkit-transform: scaleY(0.5)
+      transform: scaleY(0.5)
+
+.main
+  position: relative
+  min-height: 100%
+
+.mt20
+  margin-top: 20px
+
+.pagination
+  padding: 20px 0 5px
+  text-align: right
+
+$width = 120px
+.el-upload--picture-card
+  width: $width !important
+  height: $width !important
+  line-height: $width + 4 !important
+
+.el-upload-list--picture-card
+  .el-upload-list__item
+    width: $width !important
+    height: $width !important
+
+.el-card__header
+  padding: 10px 20px !important
+  .clearfix
+    width: 100%
+    padding: 8px 0 0
+    .el-button
+      float: right
+      padding: 3px 0
+    .icon-copy
+      span
+        font-weight: bold
+
+.el-tabs--border-card
+  .el-tabs__content
+    padding: 25px 20px !important
+
+.el-card__body
+  padding: 25px 20px !important
+
+.goback
+  cursor: pointer
+  color: $color
+  &:hover
+    color: $hoverColor
+  i
+    position: relative
+    left: -2px
+    font-weight: 600
+
+.color
+  color: $color
+
+.danger
+  color: $danger
+
+.info
+  color: $info
+
+.h-button
+  float: right
+  padding: 3px 0
+
+.common-table-container
+  width 100%
+  background #fff
+  border-radius 5px
+  .common-title-container
+    height 60px
+    padding 10px 30px
+    display flex
+    align-items center
+    color #333
+    font-size 18px
+    .publish-button
+      margin-left auto
+      width 150px
+  .common-table-main
+    padding 20px 30px
+    .common-table
+      margin 0 auto
+
+.pagination
+  .page-num-container
+    margin-left 10px
+    margin-right 10px
+    .current-page
+      color #8ABB64
+
+.page-header
+  padding  0 30px

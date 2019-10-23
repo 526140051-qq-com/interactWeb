@@ -1,0 +1,56 @@
+<template>
+  <div class="mf-loading-container" :style="backgroundColor">
+    <div class="loading-box">
+      <img src="./loading.gif">
+      <span>{{loadtxt ? loadtxt : '加载中'}}</span>
+    </div>
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  export default {
+    props: {
+      loadtxt: {
+        type: String
+      }
+    },
+    data() {
+      return {
+        backgroundColor: this.loadtxt ? 'backgroundColor: rgba(0,0,0, 0.3)' : 'backgroundColor: #fff'
+      }
+    }
+  }
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import "~stylus/mixin";
+
+  .mf-loading-container
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: #fff
+    z-index: 98
+    .loading-box
+      position: absolute
+      top: -40px
+      left: 0
+      right: 0
+      bottom: 0
+      margin: auto
+      width: 90px
+      height: 90px
+      radius()
+      background: rgba(0, 0, 0, 0.75)
+      text-align: center
+      img
+        width: 30px
+        height: 30px
+        display: block
+        margin: 18px auto 8px
+      span
+        color: #eee
+        font-size: 12px
+</style>

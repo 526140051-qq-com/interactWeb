@@ -1,0 +1,288 @@
+body, html
+  line-height: 1
+  font-weight: 200
+  font-size: 14px
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif
+  background: #f9e2eb
+  color: #666
+
+*
+  box-sizing: border-box
+
+.clearfix
+  display: inline-block
+  &:after
+    display: block
+    content: "."
+    height: 0
+    line-height: 0
+    clear: both
+    visibility: hidden
+
+img
+  width: 100%
+  vertical-align: middle
+
+em, i
+  display: inline-block
+  font-style: normal
+
+.center
+  text-align: center
+
+.right
+  text-align: right
+
+.mt10
+  margin-top: 10px
+
+.show
+  display: block !important
+
+.v--modal-overlay
+  background: rgba(0, 0, 0, 0.6) !important
+
+.toasted-container
+  width: 60% !important
+  .toasted
+    padding: 15px 30px !important
+    text-align: center !important
+    justify-content: center !important
+  .toasted.online
+    padding: 12px 30px !important
+    line-height: 1.4 !important
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder
+  color: $placeholder
+
+.arrow-right
+  width: 10px
+  height: 10px
+  border-right: #b0b0b0 1px solid
+  border-top: #b0b0b0 1px solid
+  transform: rotate(45deg)
+
+input[type="checkbox"]
+  border: $dark 1px solid
+
+.container
+  background-repeat: no-repeat
+  background-size: 100%
+
+.inner
+  padding: 95px 15px 30px
+
+.files
+  margin: -3px 0 12px
+  .files-item
+    display: flex
+    margin-bottom: 10px
+    span
+      flex: 1
+      text-align: right
+      padding: 0 15px 0 10px
+      line-height: 1.2
+    i
+      position: relative
+      top: -1px
+      width: 18px
+      height: 18px
+      line-height: 17px
+      text-align: center
+      background: $red
+      color: #fff
+      border-radius: 50%
+
+.textarea
+  margin: 0 0 15px
+  background: #fff
+  radius()
+  overflow: hidden
+  .control-label
+    width: 110px
+    display: inline-block
+    height: 40px
+    line-height: 40px
+    text-align: right
+    padding-right: 3px
+    color: $dark
+    position: relative
+    &.required:before
+      content: '*'
+      position: absolute
+      top: 0
+      right: 2px
+      color: $red
+  textarea
+    width: 100%
+    height: 100px
+    padding: 0 10px 15px
+    resize: none
+    border: none
+    font-size: 14px
+    radius()
+
+.checkbox
+  background: #fff
+  radius()
+  overflow: hidden
+  padding: 10px
+  margin-bottom: 15px
+  color: $dark
+  .checkbox-hd
+    width: 100px
+    position: relative
+    margin-bottom: 10px
+    &.required:before
+      content: '*'
+      position: absolute
+      top: 0
+      right: 2px
+      color: $red
+  .checkbox-item
+    line-height: 1.8
+    label
+      display: inline-block
+      min-width: 200px
+    input
+      position: relative
+      top: 1px
+
+.tips
+  margin: -5px 0 15px
+  color: $red
+
+select
+  appearance: none
+
+.btn-primary
+  margin-top: 20px
+  width: 100%
+  background: $red
+  text-align: center
+  font-size: 16px
+  color: #fff
+  height: 40px
+  line-height: 40px
+  radius()
+  &.disabled
+    opacity: 0.7
+
+.word2
+  width: 52px !important
+
+.word3
+  width: 66px !important
+
+.word4
+  width: 83px !important
+
+.word5
+  width: 94px !important
+
+.form-group
+  display: flex
+  margin-bottom: 15px
+  background: #fff
+  radius()
+  overflow: hidden
+  &.unit
+    position: relative
+    span
+      position: absolute
+      top: 13px
+      right: 10px
+      color: $dark
+  .control-label
+    width: 110px
+    height: 40px
+    line-height: 40px
+    text-align: right
+    position: relative
+    color: $dark
+    padding-right: 3px
+    &.required:before
+      content: '*'
+      position: absolute
+      top: 0
+      right: 2px
+      color: $red
+  .form-control
+    flex: 1
+    height: 24px
+    line-height: 24px
+    margin: 8px 0
+    padding: 0 15px
+  .form-control-static
+    flex: 1
+    height: 40px
+    line-height: 40px
+    position: relative
+    overflow: hidden
+    .static
+      padding: 0 80px 0 10px
+      height: 40px
+      line-height: 40px
+      color: $placeholder
+      ofh()
+      &.active
+        color: $dark
+    .upload
+      position: absolute
+      top: 0
+      right: 0
+      width: 70px
+      height: 40px
+      line-height: 40px
+      padding: 0 4px
+      color: #fff
+      background: #f60
+      overflow: hidden
+      text-align: center
+      span
+        width: 100%
+        height: 100%
+        display: inline-block
+      input
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        opacity: 0
+  .select
+    flex: 1
+    position: relative
+    select
+      width: 100%
+      height: 40px
+      line-height: 40px
+      background: #fff
+      border: none
+      padding: 0 10px
+      font-size: 14px
+    span
+      position: absolute
+      right: 10px
+      width: 0
+      height: 0
+      border: 5px solid transparent
+      &.first
+        top: 8px
+        border-bottom: 6px solid #aaa
+      &.last
+        top: 22px
+        border-top: 6px solid #aaa
+
+@media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)
+  .border-1px
+    &::after
+      -webkit-transform: scaleY(0.7)
+      transform: scaleY(0.7)
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2)
+  .border-1px
+    &::after
+      -webkit-transform: scaleY(0.5)
+      transform: scaleY(0.5)

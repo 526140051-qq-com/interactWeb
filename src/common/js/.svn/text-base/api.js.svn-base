@@ -1,0 +1,9 @@
+export default {
+  uploadfile: '/api/uploadfile', // 上传单个文件
+  uploadmutiplefiles: '/api/uploadmutiplefiles', // 上传多个文件
+  CodeTable: '/api/CodeTable', // 根据group获取codelist
+  submitcomplaint: '/api/submitcomplaint', // 提交在线举报信息
+  submitgiftreceived: '/api/submitgiftreceived', // 收受礼品上报
+  submitbusinessconflict: '/api/submitbusinessconflict', // 利益冲突上报
+  submitbusinessentertain: '/api/submitbusinessentertain' // 业务招待上报
+}

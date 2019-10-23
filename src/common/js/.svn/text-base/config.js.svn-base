@@ -1,0 +1,6 @@
+export default {
+  Host: 'http://139.224.68.230:8086',
+  winWidth: window.innerWidth
+}
+
+export const ERR_OK = 0
