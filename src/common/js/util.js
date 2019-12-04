@@ -141,8 +141,21 @@ function checkPhone(str) {
   }
 }
 
+/*
+ * 导出
+ */
+function download(url) {
+  let elink = document.createElement('a')
+  elink.style.display = 'none'
+  elink.href = url
+  document.body.appendChild(elink)
+  elink.click()
+  document.body.removeChild(elink)
+}
+
 export {
   postNoToken,
   post,
-  checkPhone
+  checkPhone,
+  download
 }

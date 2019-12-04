@@ -14,36 +14,27 @@
             <el-main class="main-container">
               <div class="box">
                 <div class="box-tab">
-                  <div class="tab">{{title}}</div>
+                  <div class="tab">管理员登录</div>
                 </div>
                 <div class="box-content">
                   <div class="admin">
                     <el-form ref="form" :model="form">
                       <el-form-item>
                         <el-input
-                          type="number"
-                          oninput="if(value.length>11)value=value.slice(0,11)"
                           @keyup.enter.native="doLogin"
-                          placeholder="请输入手机号"
-                          v-model.trim="form.phone"
+                          placeholder="请输入账号"
+                          v-model.trim="form.username"
                           clearable>
                         </el-input>
                       </el-form-item>
                       <el-form-item>
-                        <div class="code-container">
-                          <div class="code">
-                            <el-input
-                              type="number"
-                              oninput="if(value.length>6)value=value.slice(0,6)"
-                              @keyup.enter.native="doLogin"
-                              placeholder="请输入验证码"
-                              v-model.trim="form.code"
-                              clearable>
-                            </el-input>
-                          </div>
-                          <el-button :disabled="!sendClick" type="text" class="send-code" @click="getCode">{{codeTxt}}
-                          </el-button>
-                        </div>
+                        <el-input
+                          type="password"
+                          @keyup.enter.native="doLogin"
+                          placeholder="请输入密码"
+                          v-model.trim="form.pwd"
+                          clearable>
+                        </el-input>
                       </el-form-item>
                       <div class="login-btn" @click="doLogin" :loading="loading">登录</div>
                     </el-form>
@@ -62,113 +53,54 @@
   import api from 'common/js/api'
   import {ERR_OK} from 'common/js/config'
   import {saveUser} from 'common/js/cache'
-  import {checkPhone, postNoToken} from 'common/js/util'
+  import {postNoToken} from 'common/js/util'
 
   export default {
     data() {
       return {
         form: {
-          schoolName: '',
-          managerName: '',
-          phone: '',
-          code: '' // 验证码
+          username: '',
+          pwd: ''
         },
-        loading: false,
-        codeTxt: '获取验证码',
-        codeTime: 60, // 60秒倒计时
-        sendClick: true, // 发送验证码开关
-        title: '管理员登录'
+        loading: false
       }
     },
-    destroyed() {
-      this.clearTimer()
-    },
     methods: {
-      getCode() { // 点击获取验证码
-        let {phone} = this.form
-        if (!phone) {
-          this.$toast('请输入手机号')
-          return
-        }
-        if (!checkPhone(phone)) {
-          this.$toast('手机号格式不正确')
-          return
-        }
-        if (this.sendClick) {
-          this.sendClick = false
-          this.sendMessage()
-          this.countTimer()
-        }
-      },
-      sendMessage() { // 发送短信验证码
-        postNoToken(api.sendMessage, {
-          phone: this.form.phone
-        }).then((res) => {
-          if (res.code === ERR_OK) {
-            this.$toast(res.message, 'success')
-          }
-        })
-      },
-      countTimer() { // 倒计时
-        this.timer = setInterval(() => {
-          if (this.codeTime > 0) { // 倒计时没结束
-            this.codeTime--
-            this.codeTxt = `${this.codeTime}s`
-          } else { // 倒计时结束
-            this.resetTimer()
-          }
-        }, 1000)
-      },
-      resetTimer() { // 重置定时器
-        this.clearTimer()
-        this.sendClick = true
-        this.codeTxt = '获取验证码'
-        this.codeTime = 60
-      },
-      clearTimer() { // 清理定时器
-        clearInterval(this.timer)
-      },
       doLogin() { // 登录
-        let {phone, code} = this.form
-        if (!phone) {
-          this.$toast('请输入手机号')
+        let {username, pwd} = this.form
+        if (!username) {
+          this.$toast('请输入账号')
           return
         }
-        if (!checkPhone(phone)) {
-          this.$toast('手机号格式不正确')
-          return
-        }
-        if (!code) {
-          this.$toast('请输入验证码')
-          return
-        }
-        if (this.sendClick) {
-          this.$toast('请点击获取验证码')
+        if (!pwd) {
+          this.$toast('请输入密码')
           return
         }
         if (!this.loading) {
           this.loading = true
           this.$loading.show('登录中...')
           postNoToken(api.login, {
-            phone,
-            code
-          }).then((res) => {
+            username,
+            pwd
+          }).then(res => {
             if (res.code === ERR_OK) {
               this.goPage(res.data)
+            } else {
+              this.$toast(res.message)
             }
             this.$loading.hide()
             this.loading = false
           })
         }
       },
-      async goPage(user) {
+      goPage(user) {
         saveUser(user)
         this.doJump()
       },
       doJump() { // 登录后跳转
         setTimeout(() => {
           this.$loading.hide()
-          this.$router.replace('/notice')
+          this.$router.replace('/ads')
         }, 1000)
       }
     }

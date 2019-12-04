@@ -17,7 +17,9 @@ module.exports = {
     'no-unneeded-ternary': 0,
     'no-useless-return': 0,
     'object-curly-spacing': 0,
-    'no-negated-in-lhs': 0
+    'no-unused-vars': 0,
+    'no-negated-in-lhs': 'off',
+    'valid-v-model': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'

@@ -1,88 +1,96 @@
 <template>
   <div class="layout">
     <el-container>
-      <el-header class="clearfix">
-        <div class="left">
-          <span>{{user.school.name}}</span>
-          <i class="el-icon-edit edit-icon" @click="editSchoolName"></i>
-          <el-dialog
-            class="school-dialog"
-            title="修改学校名称"
-            :visible.sync="showSchoolDialog"
-            width="300px"
-            top="30vh">
-            <el-form>
-              <el-form-item label="学校名称">
-                <el-input v-model="editName" placeholder="请输入名称"></el-input>
-              </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="showSchoolDialog = false">取 消</el-button>
-              <el-button type="primary" @click="confirmEditSchool">确 定</el-button>
-            </span>
-          </el-dialog>
-        </div>
-        <div class="right">
-          <el-dropdown @command="logout">
+      <el-aside width="220px" ref="aside">
+        <el-row>
+          <el-col :span="24">
+            <div class="logo">
+              <img v-show="!isCollapse" :src="src" alt="">
+              {{logo}}
+            </div>
+            <template>
+              <el-menu
+                :collapse="isCollapse"
+                :default-active="$route.path"
+                class="el-menu-vertical-demo"
+                @open="handleOpen"
+                @close="handleClose"
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b"
+                router="router">
+                <el-menu-item index="/ads">
+                  <i class="el-icon-bell"></i>
+                  <span slot="title">广告管理</span>
+                </el-menu-item>
+                <el-menu-item index="/ticket">
+                  <i class="el-icon-s-ticket"></i>
+                  <span slot="title">门票管理</span>
+                </el-menu-item>
+                <el-menu-item index="/gift">
+                  <i class="el-icon-s-goods"></i>
+                  <span slot="title">礼物管理</span>
+                </el-menu-item>
+                <el-submenu index="/order">
+                  <template slot="title">
+                    <i class="el-icon-s-order"></i>
+                    <span>订单管理</span>
+                  </template>
+                  <el-menu-item index="/order/pay">支付记录</el-menu-item>
+                  <!--<el-menu-item index="/order/gift-income">礼物收入记录</el-menu-item>-->
+                  <el-menu-item index="/order/room-income">房间收入记录</el-menu-item>
+                </el-submenu>
+                <el-menu-item index="/home">
+                  <i class="el-icon-s-home"></i>
+                  <span slot="title">首页视频</span>
+                </el-menu-item>
+                <el-menu-item index="/setting">
+                  <i class="el-icon-setting"></i>
+                  <span slot="title">平台设置</span>
+                </el-menu-item>
+                <el-menu-item index="/withdraw">
+                  <i class="el-icon-money"></i>
+                  <span slot="title">提现记录</span>
+                </el-menu-item>
+                <el-menu-item index="/account">
+                  <i class="el-icon-user"></i>
+                  <span slot="title">用户管理</span>
+                </el-menu-item>
+              </el-menu>
+            </template>
+          </el-col>
+        </el-row>
+      </el-aside>
+      <el-container>
+        <el-header class="clearfix">
+          <el-radio-group v-model="isCollapse" size="small">
+            <el-radio-button :label="false">展开</el-radio-button>
+            <el-radio-button :label="true">收起</el-radio-button>
+          </el-radio-group>
+          <div class="right">
+            <el-dropdown @command="logout">
               <span class="el-dropdown-link">
-                当前用户：{{user.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+                当前用户：{{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </el-header>
-      <el-main class="outer-main">
-        <el-container>
-          <el-aside width="220px" ref="aside">
-            <el-row>
-              <el-col :span="24">
-                <div class="logo">
-                  <img class="logo-img" :src="src" alt="">
-                  <div class="logo-name">摇篮E家园</div>
-                </div>
-                <template>
-                  <el-menu
-                    :default-active="$route.path"
-                    class="el-menu-vertical-demo"
-                    @open="handleOpen"
-                    @close="handleClose"
-                    background-color="#545c64"
-                    text-color="#fff"
-                    active-text-color="#ffd04b"
-                    router="router">
-                    <el-menu-item
-                      v-for="item in menu"
-                      :key="item.id"
-                      :index="item.url">
-                      <i :class="item.icon"></i>
-                      <span slot="title">{{item.name}}</span>
-                    </el-menu-item>
-                  </el-menu>
-                </template>
-              </el-col>
-            </el-row>
-          </el-aside>
-          <el-container>
-            <el-main class="main-container">
-              <keep-alive include="keepAlive">
-                <router-view></router-view>
-              </keep-alive>
-            </el-main>
-            <el-footer>&copy; {{date}} <a href="http://www.joymetec.com" target="_blank">苏州乐米科技</a></el-footer>
-          </el-container>
-        </el-container>
-      </el-main>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </el-header>
+        <el-main>
+          <keep-alive include="keepAlive">
+            <router-view></router-view>
+          </keep-alive>
+        </el-main>
+        <el-footer>&copy; {{Date.now() | formatDate('Y')}}</el-footer>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import moment from 'moment'
-  import {saveUser, getUser, clearUser, clearExpireTime} from 'common/js/cache'
-  import {ERR_OK} from '../../common/js/config'
-  import api from 'common/js/api'
+  import {getUser, clearUser, clearExpireTime} from 'common/js/cache'
 
   const src = require('../../common/image/logo.png')
 
@@ -90,22 +98,13 @@
     data() {
       return {
         src,
-        user: getUser(),
-        showSchoolDialog: false,
-        editName: '',
-        menu: [
-          {
-            id: 1,
-            name: '园所公告',
-            url: '/notice',
-            icon: 'el-icon-document'
-          }
-        ]
+        isCollapse: false,
+        user: getUser()
       }
     },
     computed: {
-      date() {
-        return moment().format('YYYY')
+      logo() {
+        return !this.isCollapse ? '王炸管理后台' : '王炸'
       }
     },
     created() {
@@ -121,27 +120,16 @@
       logout() { // 退出登录
         clearUser()
         clearExpireTime()
-        this.$router.replace('/login')
-      },
-      editSchoolName() {
-        this.editName = this.user.school.name
-        this.showSchoolDialog = true
-      },
-      confirmEditSchool() {
-        if (!this.editName) {
-          this.$toast('请填写学校名称')
-          return
+        this.$router.replace('/teacher-login')
+      }
+    },
+    watch: {
+      isCollapse(newVal) {
+        if (newVal) {
+          this.$refs.aside.$el.style.width = '64px'
+        } else {
+          this.$refs.aside.$el.style.width = '220px'
         }
-        this.user.school.name = this.editName
-        this.$post(api.editSchool, {
-          name: this.editName
-        }).then((res) => {
-          if (res.code === ERR_OK) {
-            saveUser(this.user)
-            this.showSchoolDialog = false
-            this.$toast('修改成功', 'success')
-          }
-        })
       }
     }
   }
@@ -154,28 +142,14 @@
     min-height: 100%
 
   .el-header
-    background-color: rgba(64, 64, 64, 1)
+    background-color: #B3C0D1
     color: #333
     line-height: 60px
-    padding-left 100px
-    .left
-      color #fff
-      span
-        font-size 17px
-      .edit-icon
-        margin-left 10px
-        font-size 16px
-        cursor pointer
-      .school-dialog
-        /deep/ .el-dialog__body
-          padding 0 20px
     .right
       padding-right: 5px
-      margin-left auto
+      flex: 1
       color: $color
       cursor: pointer
-      .el-dropdown-link
-        color #fff
 
   .el-aside
     background-color: #545c64
@@ -183,31 +157,25 @@
     transition: all 0.3s
     .logo
       height: 80px
+      line-height: 80px
+      text-align: center
       font-size: 16px
       color: #fff
-      padding: 0 12px
-      display: flex
-      align-items: center
-      .logo-img
-        flex: 0 0 36px
+      img
         width: 36px
-        height: 35px
-        margin-right: 10px
-      .logo-name
-        flex: 1
-        line-height: 1.2
-        margin-left 10px
+        height: 36px
+        border-radius: 50%
+        margin-right: 5px
     .el-menu
       border-right: none
     .el-menu-vertical-demo:not(.el-menu--collapse)
       width: 220px
       min-height: 400px
 
-  .outer-main
-    padding 0
-    height calc(100vh - 60px)
+  .el-main
     background-color: $mainBg
     color: #333
+    height: calc(100vh - 100px)
 
   .el-footer
     background-color: #B3C0D1
@@ -227,7 +195,4 @@
   .el-menu
     i
       margin-right: 8px
-
-  .main-container
-    flex-basis 0
 </style>

@@ -3,7 +3,6 @@
     <el-upload
       class="avatar-uploader"
       :action="action"
-      :http-request="httpRequest"
       :headers="headers"
       list-type="picture-card"
       :multiple="multiple"
@@ -61,9 +60,11 @@
     methods: {
       // 删除
       handleRemove(file, fileList) {
+        console.log('handleRemove', file)
+        console.log('handleRemove fileList', this.elUpload)
         this.imgurl = []
         this.fileList = []
-        this.$emit('uploadimg', this.imgurl)
+        this.$emit('uploadimg', '')
       },
       // 图片预览
       PicPreview(file) {
@@ -71,15 +72,25 @@
         this.dialogVisible = true
       },
       imgSuccess(response, file, fileList) {
+        console.log('imgSuccess', file)
+        if (file.response) {
+          const ossUrl = file.response.data
+          this.$emit('uploadimg', ossUrl)
+        }
       },
       beforeUpload(file) {
-        console.log('beforeUpload')
+        console.log('beforeUpload', file)
+        if (!file.type.includes('image/')) {
+          this.$toast('请上传图片文件')
+          return false
+        }
         const isLt200 = file.size / 1024 / 1024 < 6
         if (!isLt200) {
           this.$toast('上传图片大小不能超过 6M!')
         }
         return isLt200
       },
+      // 压缩上传才用到
       httpRequest(options) {
         let file = options.file
         let name = file.name
@@ -87,6 +98,7 @@
         if (!isLt200) {
           this.$toast('上传图片大小不能超过 6M!')
         } else {
+          console.log('compress file', file)
           compress(file, (res) => {
             let dataBase = res.split(',')[1]
             let arr = []

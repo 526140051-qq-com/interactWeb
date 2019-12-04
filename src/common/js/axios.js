@@ -42,14 +42,8 @@ axios.interceptors.response.use(
     // 接口请求false,可能是漏传了参数
     const {data, headers} = response
     if (headers.token) saveToken(headers.token)
-    if (data && data.success === false) {
-      console.error('响应拦截器=====接口出错了')
-      Message({
-        message: data.message,
-        type: 'error',
-        duration: 3000
-      })
-      // errorHandler(data.message)
+    if (data && data.code !== 0) {
+      console.error('响应拦截器=====接口出错了,data.code = -1')
       // return Promise.reject(response)
     }
     return response

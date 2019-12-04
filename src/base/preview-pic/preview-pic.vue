@@ -2,9 +2,9 @@
   <div id="preview">
     <viewer :images="images" class="preview">
       <img
-        v-for="item in images"
-        :key="item.id"
-        :src="item.url"
+        v-for="(item, index) in images"
+        :key="index"
+        :src="item"
       >
     </viewer>
   </div>
@@ -40,7 +40,9 @@
     props: {
       images: {
         type: Array,
-        default: () => []
+        default: () => {
+          return []
+        }
       }
     },
     data() {
@@ -52,11 +54,11 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   .img-wrap
     .preview
-      display : flex
+      display: flex
 
   img
-    width: 150px
-    height: 100px
+    width: 120px
+    height: 90px
     margin: 0 15px 0 0
     cursor: pointer
 </style>
