@@ -9,12 +9,12 @@
         <el-divider></el-divider>
         <div class="main-container">
           <div class="filter-container">
-            <el-form :inline="true" label-width="80px" label-position="right">
-              <el-form-item class="filter-content" label="订单号">
-                <el-input v-model.trim="form.outTradeNo" type="text" placeholder="请输入" clearable></el-input>
+            <el-form :inline="true" label-width="90px">
+              <el-form-item label="礼物接受人">
+                <el-input v-model.trim="form.toNickName" type="text" placeholder="请输入" clearable></el-input>
               </el-form-item>
-              <el-form-item class="filter-content" label="用户昵称">
-                <el-input v-model.trim="form.nickName" type="text" placeholder="请输入" clearable></el-input>
+              <el-form-item label="礼物送出人">
+                <el-input v-model.trim="form.fromNickName" type="text" placeholder="请输入" clearable></el-input>
               </el-form-item>
               <el-form-item label="时间">
                 <el-date-picker
@@ -27,7 +27,7 @@
                   value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item class="filter-button-container">
+              <el-form-item>
                 <el-button @click="handleCancel">取消</el-button>
                 <el-button type="primary" @click="handleSearch">查询</el-button>
               </el-form-item>
@@ -47,24 +47,27 @@
             class="common-table"
             :data="list"
             v-loading="tableLoading"
-            :show-overflow-tooltip="true"
-            style="width: 100%">
+            :show-overflow-tooltip="true">
             <el-table-column
-              prop="outTradeNo"
+              prop="toUser.nickName"
+              label="礼物接受人">
+            </el-table-column>
+            <el-table-column
+              prop="gift.name"
               label="礼物名称">
             </el-table-column>
             <el-table-column
-              prop="nickName"
+              prop="gift.price"
               label="金额(元)">
             </el-table-column>
             <el-table-column
               prop="identityCard"
               label="时间">
-              <template slot-scope="scope">{{scope.row.createTime | formatDate}}</template>
+              <template slot-scope="scope">{{scope.row.createTime | formatDate('m')}}</template>
             </el-table-column>
             <el-table-column
-              prop="payMoney"
-              label="支付金额(元)">
+              prop="fromUser.nickName"
+              label="礼物送出人">
             </el-table-column>
           </el-table>
           <div class="pagination-container">
@@ -100,8 +103,9 @@
         pageSize: 10,
         list: [],
         form: {
-          outTradeNo: '',
-          nickName: ''
+          toNickName: '', // 礼物接受人
+          fromNickName: '', // 礼物送出人
+          time: ''
         },
         beginTime: '',
         endTime: '',
@@ -113,30 +117,41 @@
     },
     methods: {
       fetchData() {
-//        const {outTradeNo, nickName, time} = this.form
-        this.$post(api.giftLog, {
+        const {toNickName, fromNickName, time} = this.form
+        if (time) {
+          [this.beginTime, this.endTime] = time
+        } else {
+          this.beginTime = ''
+          this.endTime = ''
+        }
+        this.$post(api.selectGiveGiftLogPager, {
           pageNum: this.pageNum,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          toNickName, // 礼物接受人
+          fromNickName, // 礼物送出人
+          beginTime: this.beginTime,
+          endTime: this.endTime
         }).then(res => {
           if (res.code === ERR_OK) {
-//            const {count, logList: list} = res.data
-//            this.totalCount = count
-//            this.list = list
+            const {count, list} = res.data
+            this.totalCount = count
+            this.list = list
             this.tableLoading = false
             this.showLoading = false
           }
         })
       },
+      // 取消
       handleCancel() {
         this.form = {
-          outTradeNo: '',
-          nickName: '',
+          toNickName: '', // 礼物接受人
+          fromNickName: '', // 礼物送出人
           time: ''
         }
         this.beginTime = ''
         this.endTime = ''
         this.exportUrl = config.ApiHost + api.downPayLogs
-        this.fetchData()
+        this.handleSearch()
       },
       // 查询
       handleSearch() {
@@ -144,6 +159,7 @@
         this.pageNum = 1
         this.fetchData()
       },
+      // 分页
       handlePageChange(val) {
         this.pageNum = val
         this.fetchData()
@@ -161,7 +177,6 @@
           params.endTime = ''
         }
         this.exportUrl = this.exportUrl + '?' + qs.stringify(params)
-        console.log(this.exportUrl)
         download(this.exportUrl)
       }
     },

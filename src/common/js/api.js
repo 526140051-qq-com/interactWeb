@@ -24,6 +24,7 @@ export default {
   selectByKey: '/user/selectByKey', // 平台设置查询
   updateSetting: '/user/updateSetting', // 设置平台设置
   findWithdraw: '/withdraw/findWithdraw', // 提现记录
+  selectGiveGiftLogPager: '/gift/selectGiveGiftLogPager', // 查看送出礼物记录
   finishWithdraw: '/withdraw/finishWithdraw', // 付款（完成提现）
   findUser: '/gift/findUser', // 用户查询
   setUserState: '/user/setUserState' // 账号状态1.冻结、2.解冻

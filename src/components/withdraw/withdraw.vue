@@ -40,6 +40,11 @@
       <div class="common-table-container mt20">
         <div class="common-title-container">
           <span>提现记录</span>
+          <div class="calc">
+            <div>待付款(总)金额：{{totalMoney}}元</div>
+            <div>已付款(总)金额：{{isPayTotal}}元</div>
+            <div>服务费(总)：{{totalDeduction}}元</div>
+          </div>
         </div>
         <el-divider></el-divider>
         <div class="common-table-main">
@@ -112,9 +117,7 @@
 <script>
   import Loading from 'base/loading/loading'
   import api from 'common/js/api'
-  import config, {ERR_OK} from 'common/js/config'
-  import {download} from 'common/js/util'
-  import qs from 'qs'
+  import {ERR_OK} from 'common/js/config'
 
   export default {
     data() {
@@ -125,6 +128,9 @@
         pageNum: 1,
         pageSize: 10,
         list: [],
+        totalMoney: '', // 待付款(总)金额
+        isPayTotal: '', // 已付款(总)金额
+        totalDeduction: '', // 服务费(总)
         form: {
           num: '', // 订单号
           nickName: '', // 用户昵称
@@ -148,6 +154,7 @@
     },
     methods: {
       fetchData() {
+        this.tableLoading = true
         const {num, nickName, phone, state} = this.form
         this.$post(api.findWithdraw, {
           pageNum: this.pageNum,
@@ -158,9 +165,12 @@
           state // 状态 1.待付款 2.已付款
         }).then(res => {
           if (res.code === ERR_OK) {
-            const {count, list} = res.data
+            const {count, list, totalMoney, isPayTotal, totalDeduction} = res.data
             this.totalCount = count
             this.list = list
+            this.totalMoney = totalMoney
+            this.isPayTotal = isPayTotal
+            this.totalDeduction = totalDeduction
             this.tableLoading = false
             this.showLoading = false
           }
@@ -178,7 +188,6 @@
       },
       // 查询
       handleSearch() {
-        this.tableLoading = true
         this.pageNum = 1
         this.fetchData()
       },
@@ -210,8 +219,19 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+  @import "~stylus/mixin"
+
   /deep/ .el-divider--horizontal
     margin 0
+
+  .common-title-container
+    justify-content: space-between
+    .calc
+      display: flex
+      > div
+        font-size: 16px
+        color: $color
+        margin-left: 20px
 
   .pagination-container
     margin-top: 20px

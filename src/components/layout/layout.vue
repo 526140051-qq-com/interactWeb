@@ -37,7 +37,7 @@
                     <span>订单管理</span>
                   </template>
                   <el-menu-item index="/order/pay">支付记录</el-menu-item>
-                  <!--<el-menu-item index="/order/gift-income">礼物收入记录</el-menu-item>-->
+                  <el-menu-item index="/order/gift-income">礼物收入记录</el-menu-item>
                   <el-menu-item index="/order/room-income">房间收入记录</el-menu-item>
                 </el-submenu>
                 <el-menu-item index="/home">
@@ -50,7 +50,9 @@
                 </el-menu-item>
                 <el-menu-item index="/withdraw">
                   <i class="el-icon-money"></i>
-                  <span slot="title">提现记录</span>
+                  <span slot="title">提现记录
+                    <span v-show="count" class="count">{{count}}</span>
+                  </span>
                 </el-menu-item>
                 <el-menu-item index="/account">
                   <i class="el-icon-user"></i>
@@ -99,7 +101,8 @@
       return {
         src,
         isCollapse: false,
-        user: getUser()
+        user: getUser(),
+        count: 0
       }
     },
     computed: {
@@ -137,6 +140,15 @@
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "~stylus/mixin"
+
+  .count
+    position: relative
+    top: -12px
+    left: 15px
+    background: #f00
+    padding: 0 10px
+    border-radius: 2px
+    color: #fff
 
   .el-container
     min-height: 100%
